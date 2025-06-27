@@ -21,9 +21,6 @@ class Tasks extends HiveObject {
     required this.creationDate,
   });
 
-  void toggleCompletion() {
-    isCompleted = !isCompleted;
-    save();
-  }
+  
 
 }
