@@ -1,3 +1,4 @@
+import 'package:claro/home.dart';
 import 'package:claro/model/todo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -15,8 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold(
-      
-    ));
+    return MaterialApp(home: HomePage(), debugShowCheckedModeBanner: false);
   }
 }

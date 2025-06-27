@@ -2,8 +2,8 @@ import 'package:claro/model/todo_model.dart';
 import 'package:flutter/material.dart';
 
 class Tasklist extends StatefulWidget {
-  const Tasklist ({super.key});
- 
+  const Tasklist (this.tasks,{super.key});
+  final Tasks tasks; 
   @override
   State<Tasklist> createState() => _TasklistState();
 }

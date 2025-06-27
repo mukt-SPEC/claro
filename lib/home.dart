@@ -3,7 +3,6 @@ import 'package:claro/model/todo_model.dart';
 import 'package:claro/tasklist.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +17,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xff121212),
+        title: Text(
+          'CLARO',
+          style: GoogleFonts.afacad(fontSize: 24, color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
       body: ValueListenableBuilder<Box<Tasks>>(
         valueListenable: Hive.box<Tasks>('tasks').listenable(),
         builder: (context, box, _) {
@@ -26,15 +33,9 @@ class _HomePageState extends State<HomePage> {
             child:
                 box.get('tasks') == null
                     ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 56),
-                        Text(
-                          'CLARO',
-                          style: GoogleFonts.afacad(
-                            fontSize: 28,
-                            color: Color(0xff121212),
-                          ),
-                        ),
                         const SizedBox(height: 16),
                         Center(
                           child: Column(
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                                 'Nothing here yet!',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.afacad(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   color: const Color(0xffb9b9b9),
                                 ),
                               ),
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                                 'Ready to clear your mind and conquer the day?\n Tap the + button to add your first task.',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.afacad(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   height: 1.5,
                                   color: const Color(0xffb9b9b9),
                                 ),
@@ -78,13 +79,13 @@ class _HomePageState extends State<HomePage> {
                             Text('date'),
                           ],
                         ),
-                      
+
                         Expanded(
                           child: ListView.builder(
                             itemCount: box.values.length,
                             itemBuilder: (context, index) {
-                                //Tasks currentTask = box.getAt(index)!;
-                                return Tasklist();
+                              Tasks? currentTask = box.getAt(index);
+                              return Tasklist(currentTask!);
                             },
                           ),
                         ),
@@ -94,13 +95,15 @@ class _HomePageState extends State<HomePage> {
         },
       ),
 
-      floatingActionButton: Center(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 4.0),
         child: FloatingActionButton(
           onPressed: () {},
           backgroundColor: const Color(0xff121212),
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
