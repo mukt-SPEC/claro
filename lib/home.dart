@@ -1,18 +1,22 @@
 import 'package:claro/main.dart';
 import 'package:claro/model/todo_model.dart';
 import 'package:claro/tasklist.dart';
+import 'package:claro/widgets/taskcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Box<Tasks> todoBox = Hive.box<Tasks>('tasks');
+
+  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  Tasks? tasks;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +40,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Taskcontainer(tasks),
                         const SizedBox(height: 16),
                         Center(
                           child: Column(
