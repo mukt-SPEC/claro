@@ -1,26 +1,39 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 
 part 'todo_model.g.dart';
-@HiveType(typeId: 00)
+
+@HiveType(typeId: 0)
 class Tasks extends HiveObject {
   @HiveField(0)
-  String title;
+  String? title;
 
   @HiveField(1)
-  String description;
+  String? description;
 
   @HiveField(2)
-  bool isCompleted;
+  bool? isCompleted;
   @HiveField(3)
   DateTime? creationDate;
 
   Tasks({
-    required this.title,
-    required this.description,
+    this.title,
+    this.description,
     this.isCompleted = false,
-    required this.creationDate,
+    this.creationDate,
   });
 
-  
-
+  Tasks copyWith({
+    String? title,
+    String? description,
+    bool? isCompleted,
+    DateTime? creationDate,
+  }) {
+    return Tasks(
+      title: title ?? this.title,
+      description: description ?? this.description,
+      isCompleted: isCompleted ?? this.isCompleted,
+      creationDate: creationDate ?? this.creationDate,
+    );
+  }
 }

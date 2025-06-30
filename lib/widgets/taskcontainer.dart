@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Taskcontainer extends StatefulWidget {
   final Tasks? tasks;
-  const Taskcontainer(this.tasks, {super.key});
+  final VoidCallback? onTap;
+  const Taskcontainer(this.tasks, this.onTap, {super.key});
 
   @override
   State<Taskcontainer> createState() => _TaskcontainerState();
@@ -30,7 +31,9 @@ class _TaskcontainerState extends State<Taskcontainer> {
         children: [
           Row(
             children: [
-              Checkbox(value: widget.tasks!.isCompleted, onChanged: onChanged),
+              InkWell(
+                onTap: widget.onTap,
+                child: Checkbox(value: widget.tasks!.isCompleted, onChanged: onChanged)),
               Text(
                 // widget.tasks!.title,
                 'Tutle',

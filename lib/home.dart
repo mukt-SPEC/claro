@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Tasks? tasks;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +39,6 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Taskcontainer(tasks),
                         const SizedBox(height: 16),
                         Center(
                           child: Column(
