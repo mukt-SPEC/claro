@@ -28,14 +28,21 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animate_do: ^4.2.0
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  flutter_cupertino_date_picker_fork: ^1.0.7
+  flutter_slider_drawer: ^3.0.2
+  ftoast: ^2.0.0
   google_fonts: ^6.2.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   intl: ^0.20.2
+  lottie: ^3.3.1
+  panara_dialogs: ^0.1.5
   provider: ^6.1.5
+  uuid: ^4.5.1
 
 dev_dependencies:
   build_runner: ^2.3.3

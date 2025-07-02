@@ -1,7 +1,7 @@
 import 'package:claro/main.dart';
 import 'package:claro/model/todo_model.dart';
-import 'package:claro/tasklist.dart';
-import 'package:claro/widgets/taskcontainer.dart';
+
+import 'package:claro/views/widgets/taskcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: box.values.length,
                             itemBuilder: (context, index) {
                               Tasks? currentTask = box.getAt(index);
-                              return Tasklist(currentTask!);
+                           
                             },
                           ),
                         ),
