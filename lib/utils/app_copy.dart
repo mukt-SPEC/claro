@@ -5,5 +5,5 @@ class AppCopies {
   static const String addTaskHint = "Add a new task";
   static const String noTasksHeader = "Nothing here yet!";
   static const String noTasksMessage =
-      "Ready to clear your mind and conquer the day? Tap the + button to add your first task.";
+      "Ready to clear your mind and conquer the day?\n Tap the + button to add your first task.";
 }

@@ -1,4 +1,4 @@
-import 'package:claro/home.dart';
+import 'package:claro/views/home/widget/home.dart';
 import 'package:claro/model/todo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
