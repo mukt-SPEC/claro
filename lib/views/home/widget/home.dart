@@ -2,8 +2,11 @@ import 'package:claro/extensions/spacer.dart';
 import 'package:claro/main.dart';
 import 'package:claro/model/todo_model.dart';
 import 'package:claro/utils/app_color.dart';
+import 'package:claro/views/home/components/emptystate.dart';
 
 import 'package:claro/views/home/components/taskcontainer.dart';
+import 'package:claro/views/home/widget/tasktile.dart';
+import 'package:claro/views/tasks/task_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<String> tasks = ['1', '2'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,41 +55,39 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 20,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return AnimatedContainer(
-                        margin: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          color: AppColor.secondary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        duration: const Duration(milliseconds: 450),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: ListTile(
-                            leading: AnimatedContainer(
-                              padding: EdgeInsets.all(4),
-                              duration: const Duration(milliseconds: 350),
-                              decoration: BoxDecoration(
-                                color: AppColor.primary,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                Icons.check,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            title: Text('Task name'),
-                            subtitle: Text('task description'),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  child:
+                      tasks.isNotEmpty
+                          ? ListView.builder(
+                            itemCount: tasks.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Dismissible(
+                                direction: DismissDirection.horizontal,
+                                onDismissed: (_) {},
+                                background: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Text(
+                                      'This task will be deleted',
+                                      style: GoogleFonts.afacad(
+                                        fontSize: 12,
+                                        color: Color.fromARGB(255, 253, 67, 54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                key: Key(index.toString()),
+                                child: TaskWidget(),
+                              );
+                            },
+                          )
+                          : Emptystate(),
                 ),
               ],
             ),
@@ -96,7 +98,12 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 4.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(builder: (_) => TaskView()),
+            );
+          },
           backgroundColor: AppColor.primary,
           child: const Icon(Icons.add, color: Colors.white),
         ),
