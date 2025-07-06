@@ -47,159 +47,235 @@ class _TaskViewState extends State<TaskView> {
             width: double.infinity,
             height: double.infinity,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(height: 16),
-                Text(
-                  'What\'s Next on Your Radar',
-                  style: GoogleFonts.afacad(
-                    fontSize: 20,
-                    color: AppColor.accent,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Text(
+                          'What\'s Next on Your Radar',
+                          style: GoogleFonts.afacad(
+                            fontSize: 20,
+                            color: AppColor.accent,
+                          ),
+                        ),
+                        24.h,
+
+                        CustomTextField(
+                          textController: titleTextcontroller,
+                          inputLabel: 'Task title',
+                          hintText: 'enter',
+                          onChanged: (_) {},
+                          onFieldSubmitted: (value) {},
+                        ),
+
+                        16.h,
+                        CustomTextField(
+                          textController: descriptionTextcontroller,
+                          inputLabel: 'Description',
+                          titleicon: Icons.bookmark_rounded,
+                          maxLines: 6,
+                          hintText: 'Write your task description',
+                          onChanged: (_) {},
+                          onFieldSubmitted: (value) {},
+                        ),
+                        16.h,
+
+                        Row(
+                          spacing: 16,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  DatePicker.showDatePicker(
+                                    context,
+                                    maxDateTime: DateTime(2030, 4, 5),
+                                    minDateTime: DateTime.now(),
+                                    initialDateTime: DateTime.now(),
+                                    onConfirm: (dateTime, selectedIndex) {},
+                                    onChange: (dateTime, selectedIndex) {},
+                                  );
+                                },
+                                child: Container(
+                                  //width: double.infinity,
+                                  padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                                  //height: 48,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Date',
+                                          style: GoogleFonts.afacad(),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(4),
+                                          width: 80,
+                                          //height: 40,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.secondary,
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            spacing: 4,
+                                            children: [
+                                              Icon(
+                                                Icons.calendar_month_rounded,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text(
+                                                'Set date',
+                                                style: GoogleFonts.afacad(
+                                                  color: AppColor.primary,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (_) {
+                                      return SizedBox(
+                                        height: 260,
+                                        child: TimePickerWidget(
+                                          initDateTime: DateTime.now(),
+                                          onChange: (_, _) {},
+                                          dateFormat: 'HH : mm',
+                                          onConfirm: (_, _) {},
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  //width: double.infinity,
+                                  padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                                  //height: 48,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Time',
+                                          style: GoogleFonts.afacad(),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(4),
+                                          width: 80,
+                                          //height: 40,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.secondary,
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            spacing: 4,
+                                            children: [
+                                              Icon(
+                                                Icons
+                                                    .access_time_filled_rounded,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text(
+                                                'Set time',
+                                                style: GoogleFonts.afacad(
+                                                  color: AppColor.primary,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                24.h,
 
-                CustomTextField(
-                  textController: titleTextcontroller,
-                  inputLabel: 'Task title',
-                  hintText: 'enter',
-                  onChanged: (_) {},
-                  onFieldSubmitted: (value) {},
-                ),
-
-                16.h,
-                CustomTextField(
-                  textController: descriptionTextcontroller,
-                  inputLabel: 'Description',
-                  titleicon: Icons.bookmark_rounded,
-                  maxLines: 6,
-                  hintText: 'Write your task description',
-                  onChanged: (_) {},
-                  onFieldSubmitted: (value) {},
-                ),
-                16.h,
-
-                Row(
-                  spacing: 16,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          DatePicker.showDatePicker(
-                            context,
-                            maxDateTime: DateTime(2030, 4, 5),
-                            minDateTime: DateTime.now(),
-                            initialDateTime: DateTime.now(),
-                            onConfirm: (dateTime, selectedIndex) {},
-                            onChange: (dateTime, selectedIndex) {},
-                          );
-                        },
-                        child: Container(
-                          //width: double.infinity,
-                          padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
-                          //height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Date', style: GoogleFonts.afacad()),
-                                Container(
-                                  padding: EdgeInsets.all(4),
-                                  width: 80,
-                                  //height: 40,
-                                  decoration: BoxDecoration(
-                                    color: AppColor.primary,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Row(
-                                    spacing: 4,
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_month_rounded,
-                                        color: AppColor.secondary,
-                                      ),
-                                      Text(
-                                        'Set date',
-                                        style: GoogleFonts.afacad(
-                                          color: AppColor.secondary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                    SizedBox(height: 8),
+                    Row(
+                      spacing: 16,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade100,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+
+                            child: Text(
+                              'Delete task',
+                              style: GoogleFonts.afacad(
+                                fontSize: 16,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (_) {
-                              return SizedBox(
-                                height: 260,
-                                child: TimePickerWidget(
-                                  initDateTime: DateTime.now(),
-                                  onChange: (_, _) {},
-                                  dateFormat: 'HH : mm',
-                                  onConfirm: (_, _) {},
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Container(
-                          //width: double.infinity,
-                          padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
-                          //height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Time', style: GoogleFonts.afacad()),
-                                Container(
-                                  padding: EdgeInsets.all(4),
-                                  width: 80,
-                                  //height: 40,
-                                  decoration: BoxDecoration(
-                                    color: AppColor.primary,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Row(
-                                    spacing: 4,
-                                    children: [
-                                      Icon(
-                                        Icons.access_time_filled_rounded,
-                                        color: AppColor.secondary,
-                                      ),
-                                      Text(
-                                        'Set time',
-                                        style: GoogleFonts.afacad(
-                                          color: AppColor.secondary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.primary,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+
+                            child: Text(
+                              'Create task',
+                              style: GoogleFonts.afacad(
+                                fontSize: 16,
+                                color: AppColor.secondary,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
+                    SizedBox(height: 8),
                   ],
                 ),
               ],

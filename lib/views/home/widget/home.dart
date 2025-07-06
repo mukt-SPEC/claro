@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> tasks = ['1', '2'];
+  final List<String> tasks = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
