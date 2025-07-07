@@ -10,7 +10,9 @@ void main() async {
   Hive.registerAdapter<Tasks>(TasksAdapter());
   var todoBox = await Hive.openBox<Tasks>(HiveDataStore.tasksBox);
   todoBox.values.forEach((task) {
-    if (task.creationTime!.day != DateTime.now().day) {}
+    if (task.creationTime!.day != DateTime.now().day) {
+      task.delete();
+    }
   });
   runApp(MyApp());
 }
