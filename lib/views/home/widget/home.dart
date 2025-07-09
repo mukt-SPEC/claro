@@ -33,6 +33,12 @@ class _HomePageState extends State<HomePage> {
           'CLARO',
           style: GoogleFonts.afacad(fontSize: 24, color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete, color: Colors.white),
+            onPressed: () {},
+          ),
+        ],
         centerTitle: true,
       ),
       body: SizedBox(
@@ -83,7 +89,16 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 key: Key(index.toString()),
-                                child: TaskWidget(),
+                                child: TaskWidget(
+                                  task: Tasks(
+                                    id: '1',
+                                    title: 'home task',
+                                    description: 'taskkk',
+                                    creationDate: DateTime.now(),
+                                    creationTime: DateTime.now(),
+                                    isCompleted: false,
+                                  ),
+                                ),
                               );
                             },
                           )
@@ -101,7 +116,14 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              CupertinoPageRoute(builder: (_) => TaskView()),
+              CupertinoPageRoute(
+                builder:
+                    (_) => TaskView(
+                      descriptionTextcontroller: null,
+                      titleTextcontroller: null,
+                      task: null,
+                    ),
+              ),
             );
           },
           backgroundColor: AppColor.primary,

@@ -5,19 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 
+import '../../model/todo_model.dart';
 import '../../utils/app_color.dart';
 
 class TaskView extends StatefulWidget {
-  const TaskView({super.key});
+  final TextEditingController? descriptionTextcontroller;
+  final TextEditingController? titleTextcontroller;
+  final Tasks? task;
+  const TaskView({
+    super.key,
+    required this.descriptionTextcontroller,
+    required this.titleTextcontroller,
+    required this.task,
+  });
 
   @override
   State<TaskView> createState() => _TaskViewState();
 }
 
 class _TaskViewState extends State<TaskView> {
-  final TextEditingController titleTextcontroller = TextEditingController();
-  final TextEditingController descriptionTextcontroller =
-      TextEditingController();
+  bool doesTaskExist() {
+    if (widget.titleTextcontroller?.text == null &&
+        widget.descriptionTextcontroller?.text == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,7 +51,7 @@ class _TaskViewState extends State<TaskView> {
           elevation: 0,
           backgroundColor: AppColor.primary,
           title: Text(
-            'Add New task',
+            doesTaskExist() ? 'Add New task' : 'Update task',
             style: GoogleFonts.afacad(fontSize: 24, color: Colors.white),
           ),
           centerTitle: true,
@@ -64,7 +79,7 @@ class _TaskViewState extends State<TaskView> {
                         24.h,
 
                         CustomTextField(
-                          textController: titleTextcontroller,
+                          textController: widget.titleTextcontroller!,
                           inputLabel: 'Task title',
                           hintText: 'enter',
                           onChanged: (_) {},
@@ -73,7 +88,7 @@ class _TaskViewState extends State<TaskView> {
 
                         16.h,
                         CustomTextField(
-                          textController: descriptionTextcontroller,
+                          textController: widget.descriptionTextcontroller!,
                           inputLabel: 'Description',
                           titleicon: Icons.bookmark_rounded,
                           maxLines: 6,
