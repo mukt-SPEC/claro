@@ -13,16 +13,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  final Box<Tasks> todoBox = Hive.box<Tasks>('tasks');
+  //final Box<Tasks> todoBox = Hive.box<Tasks>('tasks');
 
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> tasks = [];
+  final List<String> tasks = ['1'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               context,
               CupertinoPageRoute(
                 builder:
-                    (_) => TaskView(
+                    (_) => const TaskView(
                       descriptionTextcontroller: null,
                       titleTextcontroller: null,
                       task: null,

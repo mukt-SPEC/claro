@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../utils/app_color.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController textController;
+  final TextEditingController? textController;
   final String? inputLabel;
   final String? hintText;
   final int? maxLines;

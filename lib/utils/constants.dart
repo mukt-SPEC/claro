@@ -13,7 +13,7 @@ dynamic emptyWarning(BuildContext context) {
   );
 }
 
-dynamic updateTask(BuildContext context) {
+dynamic updateTaskWarning(BuildContext context) {
   return FToast.toast(
     context,
     msg: 'oops! No tasks found',

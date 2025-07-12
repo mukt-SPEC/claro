@@ -40,12 +40,12 @@ class _TaskWidgetState extends State<TaskWidget> {
         margin: EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color:
-              widget.task.isCompleted! ? AppColor.secondary : AppColor.primary,
+              widget.task.isCompleted! ? AppColor.primary : AppColor.secondary,
           borderRadius: BorderRadius.circular(20),
         ),
         duration: const Duration(milliseconds: 450),
         child: ListTile(
-          contentPadding: EdgeInsets.all(8),
+          contentPadding: EdgeInsets.all(16),
           horizontalTitleGap: 16,
           leading: GestureDetector(
             onTap: () {},
@@ -53,14 +53,22 @@ class _TaskWidgetState extends State<TaskWidget> {
               padding: EdgeInsets.all(4),
               duration: const Duration(milliseconds: 350),
               decoration: BoxDecoration(
+                color: AppColor.secondary,
+                border:
+                    widget.task.isCompleted!
+                        ? Border.all(style: BorderStyle.none)
+                        : Border.all(color: AppColor.accent),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                Icons.check,
+                size: 16,
                 color:
                     widget.task.isCompleted!
                         ? AppColor.primary
                         : AppColor.secondary,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(Icons.check, size: 16, color: Colors.white),
             ),
           ),
           title: Text(
@@ -88,24 +96,45 @@ class _TaskWidgetState extends State<TaskWidget> {
               ),
               const SizedBox(height: 16),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.calendar_today, size: 16, color: AppColor.accent),
-                  SizedBox(width: 4),
-                  Text(
-                    DateFormat.yMMMEd().format(widget.task.creationDate!),
-                    style: GoogleFonts.afacad(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: AppColor.accent,
-                    ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today,
+                        size: 16,
+                        color: AppColor.accent,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        DateFormat.yMMMEd().format(widget.task.creationDate!),
+                        style: GoogleFonts.afacad(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: AppColor.accent,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    DateFormat('hh :mm a').format(widget.task.creationTime!),
-                    style: GoogleFonts.afacad(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: AppColor.accent,
-                    ),
+                  Row(
+                    spacing: 4,
+                    children: [
+                      Icon(
+                        Icons.access_time_rounded,
+                        size: 16,
+                        color: AppColor.accent,
+                      ),
+                      Text(
+                        DateFormat(
+                          'hh :mm a',
+                        ).format(widget.task.creationTime!),
+                        style: GoogleFonts.afacad(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: AppColor.accent,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
