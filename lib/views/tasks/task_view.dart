@@ -27,7 +27,7 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
   var title;
-  var subtile;
+  var subtitle;
   DateTime? date;
   DateTime? time;
 
@@ -74,13 +74,24 @@ class _TaskViewState extends State<TaskView> {
         widget.descriptionTextcontroller?.text != null) {
       try {
         widget.titleTextcontroller?.text = title;
-        widget.descriptionTextcontroller?.text = subtile;
+        widget.descriptionTextcontroller?.text = subtitle;
 
         widget.task?.save();
       } catch (e) {
         updateTaskWarning(context);
       }
-    } else {}
+    } else {
+      if (title != null && subtitle != null) {
+        var task = Tasks.copyWith(
+          title: title,
+          description: subtitle,
+          creationDate: date,
+          creationTime: time,
+        );
+      } else {
+        emptyWarning(context);
+      }
+    }
   }
 
   bool doesTaskExist() {
@@ -346,7 +357,9 @@ class _TaskViewState extends State<TaskView> {
                         ),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              isTaskAlreadyExisting();
+                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.primary,
                               elevation: 0,

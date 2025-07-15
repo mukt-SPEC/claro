@@ -32,7 +32,7 @@ class Tasks extends HiveObject {
     required this.creationTime,
   });
 
-  Tasks copyWith({
+  factory Tasks.copyWith({
     String? title,
     String? description,
     bool? isCompleted,
@@ -41,11 +41,11 @@ class Tasks extends HiveObject {
     String? id,
   }) {
     return Tasks(
-      title: title ?? this.title,
-      description: description ?? this.description,
+      title: title ?? '',
+      description: description ?? "",
       isCompleted: isCompleted ?? false,
-      creationDate: creationDate ?? this.creationDate,
-      creationTime: creationTime ?? this.creationTime,
+      creationDate: creationDate ?? DateTime.now(),
+      creationTime: creationTime ?? DateTime.now(),
       id: const Uuid().v1(),
     );
   }
