@@ -1,6 +1,7 @@
 import 'package:claro/extensions/spacer.dart';
 import 'package:claro/utils/constants.dart';
 import 'package:claro/views/tasks/components/custom_text_field.dart';
+import 'package:claro/views/tasks/widget/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -334,48 +335,23 @@ class _TaskViewState extends State<TaskView> {
                     Row(
                       spacing: 16,
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red.shade100,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
+                        isTaskAlreadyExisting()
+                            ? Container()
+                            : Expanded(
+                              child: AppButton(
+                                onPressed: () {},
+                                backgroundColor: Colors.red.shade100,
+                                buttonText: 'Delete task',
+                                textColor: Colors.red,
                               ),
                             ),
 
-                            child: Text(
-                              'Delete task',
-                              style: GoogleFonts.afacad(
-                                fontSize: 16,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
                         Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              isTaskAlreadyExisting();
-                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.primary,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                            ),
-
-                            child: Text(
-                              'Create task',
-                              style: GoogleFonts.afacad(
-                                fontSize: 16,
-                                color: AppColor.secondary,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                          child: AppButton(
+                            onPressed: isTaskAlreadyExisting,
+                            backgroundColor: AppColor.primary,
+                            buttonText: 'Create Task',
+                            textColor: AppColor.secondary,
                           ),
                         ),
                       ],
