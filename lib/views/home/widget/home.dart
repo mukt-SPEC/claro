@@ -1,3 +1,4 @@
+import 'package:claro/data/hive_data_store.dart';
 import 'package:claro/extensions/spacer.dart';
 import 'package:claro/main.dart';
 import 'package:claro/model/todo_model.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   //final Box<Tasks> todoBox = Hive.box<Tasks>('tasks');
@@ -22,9 +24,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> tasks = ['1'];
   @override
   Widget build(BuildContext context) {
+    final hiveDataStore = Provider.of<HiveDataStore>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -41,73 +43,78 @@ class _HomePageState extends State<HomePage> {
         ],
         centerTitle: true,
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: SizedBox(
+      body: ValueListenableBuilder<Box<Tasks>>(
+        valueListenable: hiveDataStore.tasksListenable(),
+        builder: (context, value, child) {
+          var tasks = value.values.toList();
+          tasks.sort((a, b) => a.creationTime!.compareTo(b.creationTime!));
+          return SizedBox(
             width: double.infinity,
-            height: 680,
-            child: Column(
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Todays Tasks',
-                  style: GoogleFonts.afacad(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                Expanded(
-                  child:
-                      tasks.isNotEmpty
-                          ? ListView.builder(
-                            itemCount: tasks.length,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Dismissible(
-                                direction: DismissDirection.horizontal,
-                                onDismissed: (_) {},
-                                background: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: 30,
+            height: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 680,
+                child: Column(
+                  spacing: 16,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Todays Tasks',
+                      style: GoogleFonts.afacad(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    Expanded(
+                      child:
+                          tasks.isEmpty
+                              ? Emptystate()
+                              : ListView.builder(
+                                itemCount: tasks.length,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var task = tasks[index];
+                                  return Dismissible(
+                                    direction: DismissDirection.horizontal,
+                                    onDismissed: (_) {},
+                                    background: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                          size: 30,
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Text(
+                                          'This task will be deleted',
+                                          style: GoogleFonts.afacad(
+                                            fontSize: 12,
+                                            color: Color.fromARGB(
+                                              255,
+                                              253,
+                                              67,
+                                              54,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                      'This task will be deleted',
-                                      style: GoogleFonts.afacad(
-                                        fontSize: 12,
-                                        color: Color.fromARGB(255, 253, 67, 54),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                key: Key(index.toString()),
-                                child: TaskWidget(
-                                  task: Tasks(
-                                    id: '1',
-                                    title: 'home task',
-                                    description: 'taskkk',
-                                    creationDate: DateTime.now(),
-                                    creationTime: DateTime.now(),
-                                    isCompleted: false,
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                          : Emptystate(),
+                                    key: Key(index.toString()),
+                                    child: TaskWidget(task: task),
+                                  );
+                                },
+                              ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
 
       floatingActionButton: Padding(

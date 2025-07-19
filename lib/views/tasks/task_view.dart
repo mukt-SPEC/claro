@@ -1,3 +1,4 @@
+import 'package:claro/data/hive_data_store.dart';
 import 'package:claro/extensions/spacer.dart';
 import 'package:claro/utils/constants.dart';
 import 'package:claro/views/tasks/components/custom_text_field.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/todo_model.dart';
 import '../../utils/app_color.dart';
@@ -89,6 +91,8 @@ class _TaskViewState extends State<TaskView> {
           creationDate: date,
           creationTime: time,
         );
+
+        Provider.of<HiveDataStore>(context).addTask(task);
       } else {
         emptyWarning(context);
       }
@@ -333,9 +337,13 @@ class _TaskViewState extends State<TaskView> {
                   children: [
                     SizedBox(height: 8),
                     Row(
+                      mainAxisAlignment:
+                          doesTaskExist()
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.spaceBetween,
                       spacing: 16,
                       children: [
-                        isTaskAlreadyExisting()
+                        doesTaskExist()
                             ? Container()
                             : Expanded(
                               child: AppButton(

@@ -3,6 +3,7 @@ import 'package:claro/views/home/widget/home.dart';
 import 'package:claro/model/todo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 
 late Box todoBox;
 void main() async {
@@ -14,7 +15,12 @@ void main() async {
   //     task.delete();
   //   }
   // });
-  runApp(MyApp());
+  runApp(
+    Provider<HiveDataStore>(
+      create: (_) => HiveDataStore(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
