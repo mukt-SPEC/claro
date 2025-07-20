@@ -16,27 +16,10 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
-  TextEditingController titleTextcontroller = TextEditingController();
-  TextEditingController descriptionTextcontroller = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    titleTextcontroller.text = widget.task.title!;
-    descriptionTextcontroller.text = widget.task.description!;
-  }
-
-  @override
-  void dispose() {
-    titleTextcontroller.dispose();
-    descriptionTextcontroller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: widget.onTap,
       child: AnimatedContainer(
         margin: EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
@@ -49,7 +32,7 @@ class _TaskWidgetState extends State<TaskWidget> {
           contentPadding: EdgeInsets.all(16),
           horizontalTitleGap: 16,
           leading: GestureDetector(
-            onTap: widget.onTap,
+            onTap: (){},
             child: AnimatedContainer(
               padding: EdgeInsets.all(4),
               duration: const Duration(milliseconds: 350),
@@ -73,7 +56,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
           ),
           title: Text(
-            titleTextcontroller.text,
+            widget.task.title ?? '',
             style: GoogleFonts.afacad(
               color:
                   widget.task.isCompleted!
@@ -85,7 +68,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                descriptionTextcontroller.text,
+                widget.task.description ?? '',
                 style: GoogleFonts.afacad(
                   color:
                       widget.task.isCompleted!

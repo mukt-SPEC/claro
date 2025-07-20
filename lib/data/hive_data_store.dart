@@ -15,7 +15,7 @@ class HiveDataStore {
   }
 
   Future<void> updateTask(Tasks task) async {
-    await task.save();
+    await box.put(task.id, task);
   }
 
   Future<void> deleteTask(Tasks task) async {

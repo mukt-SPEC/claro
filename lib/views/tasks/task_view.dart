@@ -128,10 +128,11 @@ class _TaskViewState extends State<TaskView> {
           id: Uuid().v1(),
         );
         await hiveDataSTore.addTask(newTask);
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context);
+        }
       }
     } else {
-      // Update existing task
       try {
         widget.task!.title = currentTitle;
         widget.task!.description = currentDescription;

@@ -33,23 +33,23 @@ class Tasks extends HiveObject {
     required this.creationTime,
   });
 
-  factory Tasks.copyWith({
-    String? title,
-    String? description,
-    bool? isCompleted,
-    DateTime? creationDate,
-    DateTime? creationTime,
-    String? id,
-  }) {
-    return Tasks(
-      title: title ?? '',
-      description: description ?? "",
-      isCompleted: isCompleted ?? false,
-      creationDate: creationDate ?? DateTime.now(),
-      creationTime: creationTime ?? DateTime.now(),
-      id: const Uuid().v1(),
-    );
-  }
+  // factory Tasks.copyWith({
+  //   String? title,
+  //   String? description,
+  //   bool? isCompleted,
+  //   DateTime? creationDate,
+  //   DateTime? creationTime,
+  //   String? id,
+  // }) {
+  //   return Tasks(
+  //     title: title ?? '',
+  //     description: description ?? "",
+  //     isCompleted: isCompleted ?? false,
+  //     creationDate: creationDate ?? DateTime.now(),
+  //     creationTime: creationTime ?? DateTime.now(),
+  //     id: const Uuid().v1(),
+  //   );
+  // }
 
   Tasks copyWith({
     String? title,
