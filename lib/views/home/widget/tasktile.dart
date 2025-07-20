@@ -32,7 +32,12 @@ class _TaskWidgetState extends State<TaskWidget> {
           contentPadding: EdgeInsets.all(16),
           horizontalTitleGap: 16,
           leading: GestureDetector(
-            onTap: (){},
+            onTap: () async {
+              setState(() {
+                widget.task.isCompleted = !(widget.task.isCompleted ?? false);
+              });
+              await widget.task.save(); 
+            },
             child: AnimatedContainer(
               padding: EdgeInsets.all(4),
               duration: const Duration(milliseconds: 350),
