@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import '../../../utils/app_color.dart';
 
 class TaskWidget extends StatefulWidget {
-  const TaskWidget({super.key, required this.task});
+  const TaskWidget({super.key, required this.task, required this.onTap});
+  final VoidCallback onTap;
 
   final Tasks task;
 
@@ -48,7 +49,7 @@ class _TaskWidgetState extends State<TaskWidget> {
           contentPadding: EdgeInsets.all(16),
           horizontalTitleGap: 16,
           leading: GestureDetector(
-            onTap: () {},
+            onTap: widget.onTap,
             child: AnimatedContainer(
               padding: EdgeInsets.all(4),
               duration: const Duration(milliseconds: 350),

@@ -10,11 +10,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<Tasks>(TasksAdapter());
   todoBox = await Hive.openBox<Tasks>(HiveDataStore.tasksBox);
-  // todoBox.values.forEach((task) {
-  //   if (task.creationTime!.day != DateTime.now().day) {
-  //     task.delete();
-  //   }
-  // });
+  
   runApp(
     Provider<HiveDataStore>(
       create: (_) => HiveDataStore(),

@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../model/todo_model.dart';
 import '../../utils/app_color.dart';
@@ -29,10 +30,27 @@ class TaskView extends StatefulWidget {
 }
 
 class _TaskViewState extends State<TaskView> {
-  var title;
-  var subtitle;
+  // String? title;
+  // String? description;
   DateTime? date;
   DateTime? time;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.task != null) {
+      if (widget.titleTextcontroller != null &&
+          widget.titleTextcontroller!.text.isEmpty) {
+        widget.titleTextcontroller!.text = widget.task!.title ?? '';
+      }
+      if (widget.descriptionTextcontroller != null &&
+          widget.descriptionTextcontroller!.text.isEmpty) {
+        widget.descriptionTextcontroller!.text = widget.task!.description ?? '';
+      }
+    }
+    date = date ?? widget.task?.creationDate;
+    time = time ?? widget.task?.creationTime;
+  }
 
   String showTime(DateTime? time) {
     if (widget.task?.creationTime == null) {
@@ -72,39 +90,63 @@ class _TaskViewState extends State<TaskView> {
     }
   }
 
-  dynamic isTaskAlreadyExisting() {
-    if (widget.titleTextcontroller?.text != null &&
-        widget.descriptionTextcontroller?.text != null) {
-      try {
-        widget.titleTextcontroller?.text = title;
-        widget.descriptionTextcontroller?.text = subtitle;
-
-        widget.task?.save();
-      } catch (e) {
-        updateTaskWarning(context);
-      }
-    } else {
-      if (title != null && subtitle != null) {
-        var task = Tasks.copyWith(
-          title: title,
-          description: subtitle,
-          creationDate: date,
-          creationTime: time,
-        );
-
-        Provider.of<HiveDataStore>(context).addTask(task);
-      } else {
-        emptyWarning(context);
-      }
-    }
+  bool doesTaskExist() {
+    // if (widget.titleTextcontroller?.text == null &&
+    //     widget.descriptionTextcontroller?.text == null) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return widget.task == null;
   }
 
-  bool doesTaskExist() {
-    if (widget.titleTextcontroller?.text == null &&
-        widget.descriptionTextcontroller?.text == null) {
-      return true;
+  void saveTask() async {
+    final currentTitle = widget.titleTextcontroller?.text.trim();
+    final currentDescription = widget.descriptionTextcontroller?.text.trim();
+
+    if (currentTitle == null ||
+        currentTitle.isEmpty ||
+        currentDescription == null ||
+        currentDescription.isEmpty) {
+      if (mounted) {
+        emptyWarning(context);
+      }
+      return;
+    }
+    if (widget.task == null) {
+      if (mounted) {
+        final hiveDataSTore = Provider.of<HiveDataStore>(
+          context,
+          listen: false,
+        );
+        final newTask = Tasks(
+          title: currentTitle,
+          description: currentDescription,
+          isCompleted: false,
+          creationDate: date ?? DateTime.now(),
+          creationTime: time ?? DateTime.now(),
+          id: Uuid().v1(),
+        );
+        await hiveDataSTore.addTask(newTask);
+        Navigator.pop(context);
+      }
     } else {
-      return false;
+      // Update existing task
+      try {
+        widget.task!.title = currentTitle;
+        widget.task!.description = currentDescription;
+        widget.task!.creationDate = date ?? widget.task?.creationDate;
+        widget.task!.creationTime = time ?? widget.task?.creationTime;
+
+        await widget.task!.save();
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        if (mounted) {
+          updateTaskWarning(context);
+        }
+      }
     }
   }
 
@@ -160,12 +202,8 @@ class _TaskViewState extends State<TaskView> {
                           textController: widget.titleTextcontroller,
                           inputLabel: 'Task title',
                           hintText: 'enter',
-                          onChanged: (String title) {
-                            title = title;
-                          },
-                          onFieldSubmitted: (String title) {
-                            title = title;
-                          },
+                          onChanged: (String titleText) {},
+                          onFieldSubmitted: (String titleText) {},
                         ),
 
                         16.h,
@@ -176,10 +214,10 @@ class _TaskViewState extends State<TaskView> {
                           maxLines: 6,
                           hintText: 'Write your task description',
                           onChanged: (String subtitle) {
-                            subtitle = subtitle;
+                            // No setState or assignment here
                           },
                           onFieldSubmitted: (String subtitle) {
-                            subtitle = subtitle;
+                            // No setState or assignment here
                           },
                         ),
                         16.h,
@@ -356,9 +394,10 @@ class _TaskViewState extends State<TaskView> {
 
                         Expanded(
                           child: AppButton(
-                            onPressed: isTaskAlreadyExisting,
+                            onPressed: saveTask,
                             backgroundColor: AppColor.primary,
-                            buttonText: 'Create Task',
+                            buttonText:
+                                doesTaskExist() ? 'Create Task' : 'Update task',
                             textColor: AppColor.secondary,
                           ),
                         ),

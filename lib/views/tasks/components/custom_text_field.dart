@@ -38,6 +38,7 @@ class CustomTextField extends StatelessWidget {
         ),
         SizedBox(height: 8),
         TextFormField(
+          
           controller: textController,
           maxLines: maxLines ?? 1,
           style: GoogleFonts.afacad(fontSize: 16),

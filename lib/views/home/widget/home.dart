@@ -24,6 +24,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void _addTask() {
+    final TextEditingController titleTextController = TextEditingController();
+    final TextEditingController descriptionTextcontroller =
+        TextEditingController();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder:
+            (context) => TaskView(
+              descriptionTextcontroller: descriptionTextcontroller,
+              titleTextcontroller: titleTextController,
+              task: null,
+            ),
+      ),
+    );
+    // .then((_) {
+    //   titleTextController.dispose();
+    //   descriptionTextcontroller.dispose();
+    // });
+  }
+
+  void _edittask(Tasks task) {
+    final TextEditingController titleTextController = TextEditingController(
+      text: task.title,
+    );
+    final TextEditingController descriptionTextcontroller =
+        TextEditingController(text: task.description);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder:
+            (context) => TaskView(
+              descriptionTextcontroller: descriptionTextcontroller,
+              titleTextcontroller: titleTextController,
+              task: task,
+            ),
+      ),
+    );
+    // .then((_) {
+    //   titleTextController.dispose();
+    //   descriptionTextcontroller.dispose();
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     final hiveDataStore = Provider.of<HiveDataStore>(context, listen: false);
@@ -104,7 +146,10 @@ class _HomePageState extends State<HomePage> {
                                       ],
                                     ),
                                     key: Key(index.toString()),
-                                    child: TaskWidget(task: task),
+                                    child: TaskWidget(
+                                      task: task,
+                                      onTap: () => _edittask(task),
+                                    ),
                                   );
                                 },
                               ),
@@ -121,17 +166,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(bottom: 4.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder:
-                    (_) => const TaskView(
-                      descriptionTextcontroller: null,
-                      titleTextcontroller: null,
-                      task: null,
-                    ),
-              ),
-            );
+            _addTask();
           },
           backgroundColor: AppColor.primary,
           child: const Icon(Icons.add, color: Colors.white),
