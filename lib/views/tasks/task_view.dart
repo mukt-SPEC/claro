@@ -90,22 +90,19 @@ class _TaskViewState extends State<TaskView> {
     }
   }
 
-  // void deleteTask() async{
-  //   if (widget.task != null){
-  //     final hiveDataSTore = Provider.of<HiveDataStore>(
-  //         context,
-  //         listen: false,
-  //       );
-  //       try {
-  //         await hiveDataSTore.deleteTask(widget.task!);
-  //         if (mounted) {
-  //           Navigator.pop(context);
-  //         }
-  //       } catch (e) {
-  //         //i dunno throw a not delet error??
-  //       }
-  //   }
-  // }
+  void deleteTask() async {
+    if (widget.task != null) {
+      final hiveDataSTore = Provider.of<HiveDataStore>(context, listen: false);
+      try {
+        await hiveDataSTore.deleteTask(widget.task!);
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        //i dunno throw a not delet error??
+      }
+    }
+  }
 
   bool doesTaskExist() {
     return widget.task == null;
@@ -147,8 +144,8 @@ class _TaskViewState extends State<TaskView> {
       try {
         widget.task!.title = currentTitle;
         widget.task!.description = currentDescription;
-        widget.task!.creationDate = date ?? widget.task?.creationDate;
-        widget.task!.creationTime = time ?? widget.task?.creationTime;
+        widget.task!.creationDate = date ?? widget.task!.creationDate;
+        widget.task!.creationTime = time ?? widget.task!.creationTime;
 
         await widget.task!.save();
         if (mounted) {
@@ -165,7 +162,7 @@ class _TaskViewState extends State<TaskView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -247,11 +244,7 @@ class _TaskViewState extends State<TaskView> {
                                   initialDateTime: showDateAsDateTime(date),
                                   onConfirm: (dateTime, _) {
                                     setState(() {
-                                      if (widget.task?.creationDate == null) {
-                                        date = dateTime;
-                                      } else {
-                                        widget.task?.creationDate = dateTime;
-                                      }
+                                      date = dateTime;
                                     });
                                   },
                                   onChange: (dateTime, selectedIndex) {},
@@ -316,13 +309,7 @@ class _TaskViewState extends State<TaskView> {
                                         dateFormat: 'HH : mm',
                                         onConfirm: (dateTime, _) {
                                           setState(() {
-                                            if (widget.task?.creationTime ==
-                                                null) {
-                                              time = dateTime;
-                                            } else {
-                                              widget.task?.creationTime =
-                                                  dateTime;
-                                            }
+                                            time = dateTime;
                                           });
                                         },
                                       ),
@@ -397,7 +384,9 @@ class _TaskViewState extends State<TaskView> {
                             ? Container()
                             : Expanded(
                               child: AppButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  deleteTask();
+                                },
                                 backgroundColor: Colors.red.shade100,
                                 buttonText: 'Delete task',
                                 textColor: Colors.red,

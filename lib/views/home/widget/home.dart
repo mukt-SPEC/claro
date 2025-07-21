@@ -1,11 +1,9 @@
 import 'package:claro/data/hive_data_store.dart';
-import 'package:claro/extensions/spacer.dart';
-import 'package:claro/main.dart';
+
 import 'package:claro/model/todo_model.dart';
 import 'package:claro/utils/app_color.dart';
 import 'package:claro/views/home/components/emptystate.dart';
 
-import 'package:claro/views/home/components/taskcontainer.dart';
 import 'package:claro/views/home/widget/tasktile.dart';
 import 'package:claro/views/tasks/task_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     final TextEditingController descriptionTextcontroller =
         TextEditingController();
     Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         builder:
             (context) => TaskView(
               descriptionTextcontroller: descriptionTextcontroller,
@@ -69,7 +67,6 @@ class _HomePageState extends State<HomePage> {
       final hiveDataSTore = Provider.of<HiveDataStore>(context, listen: false);
       try {
         await hiveDataSTore.deleteTask(task);
-        
       } catch (e) {
         //i dunno throw a not delet error??
       }
