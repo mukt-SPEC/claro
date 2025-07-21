@@ -90,30 +90,24 @@ class _TaskViewState extends State<TaskView> {
     }
   }
 
-  void deleteTask() async{
-    if (widget.task != null){
-      final hiveDataSTore = Provider.of<HiveDataStore>(
-          context,
-          listen: false,
-        );
-        try {
-          await hiveDataSTore.deleteTask(widget.task!);
-          if (mounted) {
-            Navigator.pop(context);
-          }
-        } catch (e) {
-          //i dunno throw a not delet error??
-        }
-    }
-  }
+  // void deleteTask() async{
+  //   if (widget.task != null){
+  //     final hiveDataSTore = Provider.of<HiveDataStore>(
+  //         context,
+  //         listen: false,
+  //       );
+  //       try {
+  //         await hiveDataSTore.deleteTask(widget.task!);
+  //         if (mounted) {
+  //           Navigator.pop(context);
+  //         }
+  //       } catch (e) {
+  //         //i dunno throw a not delet error??
+  //       }
+  //   }
+  // }
 
   bool doesTaskExist() {
-    // if (widget.titleTextcontroller?.text == null &&
-    //     widget.descriptionTextcontroller?.text == null) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
     return widget.task == null;
   }
 

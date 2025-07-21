@@ -15,8 +15,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  //final Box<Tasks> todoBox = Hive.box<Tasks>('tasks');
-
   const HomePage({super.key});
 
   @override
@@ -64,6 +62,18 @@ class _HomePageState extends State<HomePage> {
     //   titleTextController.dispose();
     //   descriptionTextcontroller.dispose();
     // });
+  }
+
+  void deleteTask(Tasks? task) async {
+    if (task != null) {
+      final hiveDataSTore = Provider.of<HiveDataStore>(context, listen: false);
+      try {
+        await hiveDataSTore.deleteTask(task);
+        
+      } catch (e) {
+        //i dunno throw a not delet error??
+      }
+    }
   }
 
   @override
@@ -120,7 +130,9 @@ class _HomePageState extends State<HomePage> {
                                   var task = tasks[index];
                                   return Dismissible(
                                     direction: DismissDirection.horizontal,
-                                    onDismissed: (_) {},
+                                    onDismissed: (_) {
+                                      deleteTask(task);
+                                    },
                                     background: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
